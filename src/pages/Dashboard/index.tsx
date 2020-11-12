@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useAuth } from '../../hooks/auth';
 
 import {
@@ -31,7 +32,7 @@ export interface Provider {
 const Dashboard: React.FC = () => {
   const [providers, setProviders] = useState<Provider[]>([]);
 
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
   const { navigate } = useNavigation();
 
   useEffect(() => {
@@ -54,11 +55,13 @@ const Dashboard: React.FC = () => {
   return (
     <Container>
       <Header>
-        <HeaderTitle>
-          Bem vindo,
-          {'\n'}
-          <UserName>{user.name}</UserName>
-        </HeaderTitle>
+        <TouchableOpacity onPress={signOut}>
+          <HeaderTitle>
+            Bem vindo,
+            {'\n'}
+            <UserName>{user.name}</UserName>
+          </HeaderTitle>
+        </TouchableOpacity>
 
         <ProfileButton onPress={navigateToProfile}>
           <UserAvatar source={{ uri: user.avatar_url }} />
